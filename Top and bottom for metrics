@@ -1,0 +1,16 @@
+Top/Bottom 5 [Metric] = 
+// Select top N based on given metric(s)
+VAR Top_Selection= 
+    CALCULATE([Order & Quantity],
+        KEEPFILTERS(TOPN('TopN'[TopN Value],ALL(Data[Product ID]),[Order & Quantity],DESC)
+))
+// Select bottom N based on given metric(s)
+VAR Bottom_Selection= 
+    CALCULATE([Order & Quantity],
+        KEEPFILTERS(TOPN('TopN'[TopN Value],ALL(Data[Product ID]),[Order & Quantity],ASC)
+))
+// This will be a slicer/column that determine wether is top or bottom vallues should be return
+Var Result = 
+    IF(SELECTEDVALUE('Top Bottom Selection'[Selection])="Top",Top_Selection,Bottom_Selection)
+
+RETURN Result
